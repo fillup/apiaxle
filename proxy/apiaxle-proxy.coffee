@@ -19,13 +19,13 @@ cpus = require("os").cpus()
 { AxleApp } = require "apiaxle-base"
 
 { ApiUnknown,
-  KeyError,
-  ApiDisabled,
-  KeyDisabled,
-  EndpointMissingError,
-  EndpointTimeoutError,
-  ConnectionError,
-  DNSError } = require "./lib/error"
+KeyError,
+ApiDisabled,
+KeyDisabled,
+EndpointMissingError,
+EndpointTimeoutError,
+ConnectionError,
+DNSError } = require "./lib/error"
 
 { PathGlobs } = require "./lib/path_globs"
 { ApiaxleQueueProcessor } = require "./apiaxle-proxy-event-subscriber"
@@ -114,9 +114,9 @@ class exports.ApiaxleProxy extends AxleApp
     # TODO: I think x-forwarded-for can have many, comma seperated
     # addresses.
     ip = req.headers["x-forwarded-for"] or
-         req.connection.remoteAddress or
-         req.socket.remoteAddress or
-         req.connection.socket.remoteAddress
+    req.connection.remoteAddress or
+    req.socket.remoteAddress or
+    req.connection.socket.remoteAddress
 
     key_name = "ip-#{ req.api_name }-#{ ip }"
 
@@ -299,7 +299,7 @@ class exports.ApiaxleProxy extends AxleApp
       req.key.data.qpd
     ]
 
-    @model( "apilimits" ).apiHit args..., ( err, [ newQps, newQpd ] ) ->
+    @model( "apilimits" ).apiHit args..., ( err, [ newQpd, newQps ] ) ->
       return next err if err
 
       # let the user know what they have left
@@ -412,8 +412,8 @@ class exports.ApiaxleProxy extends AxleApp
           rejectUnauthorized: req.api.data.strictSSL
 
         @logger.debug "Backend: #{ req_options.method } to " +
-                      "'#{ req.api.data.protocol }://" +
-                      "#{ req_options.host}:#{ req_options.port }#{ req_options.path }"
+        "'#{ req.api.data.protocol }://" +
+        "#{ req_options.host}:#{ req_options.port }#{ req_options.path }"
         proxyReq = mod.request req_options
 
         # make sure we timeout if asked to
@@ -533,8 +533,8 @@ if not module.parent
       alias: "process-queue"
       default: false
       describe: "If your willing to take the performance penalty, process " +
-                "each request from this system, rather than using " +
-                "apiaxle-proxy-event-subscriber."
+      "each request from this system, rather than using " +
+      "apiaxle-proxy-event-subscriber."
     t:
       alias: "disable-timings"
       default: false
