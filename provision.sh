@@ -10,7 +10,7 @@ sudo apt-get install -y nodejs build-essential libxml2-dev npm
 #sudo apt-get install -y nodejs
 
 # Install redis
-#sudo apt-get install -y redis-server
+sudo apt-get install -y redis-server
 
 # Create symlink for node to nodejs
 sudo ln -s $(which nodejs) /usr/local/bin/node
