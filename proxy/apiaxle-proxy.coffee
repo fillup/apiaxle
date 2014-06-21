@@ -373,14 +373,13 @@ class exports.ApiaxleProxy extends AxleApp
 
   applyCors: ( req, res, next ) =>
     # If CORS is not enabled, proceed
-    if not req.api.corsEnabled
-      return next()
+    if req.api.data.corsEnabled
+      res.setHeader "Access-Control-Allow-Origin", "*"
+      res.setHeader "Access-Control-Allow-Credentials", "true"
+      res.setHeader "Access-Control-Allow-Methods", "GET, POST, PUT, DELETE"
+      res.setHeader "Access-Control-Allow-Headers", "Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token"
 
-    res.setHeader "Access-Control-Allow-Origin", "*"
-    res.setHeader "Access-Control-Allow-Credentials", true
-    res.setHeader "Access-Control-Allow-Methods", "GET, POST, PUT, DELETE"
-    res.setHeader "Access-Control-Allow-Headers", "Origin, Accept, Content-Type, X-Requested-With, X-CSRF-Token"
-
+    return next()
 
   run: ( cb ) ->
     # takes the request, a name and a cb. Used to make a suitable
